@@ -39,7 +39,7 @@ class React implements Runnable {
 }
 
 public class Server{
-    public static void main(String args[]){
+    public static void main(String[] args){
         ServerSocket server = null;
         Socket you = null;
 		int	i=0;
