@@ -29,9 +29,18 @@ class React implements Runnable {
 		                System.out.println(s);
 		                out.writeUTF("客户，你好，我是服务器"+Thread.currentThread().getName());
 		    	}
+		    	System.out.println("in1:"+in);
 	    		in.close();
+	    		System.out.println("in2:"+in);
 	    		out.close();
 	    	}catch(IOException e) {
+	    		try {
+					in.close();
+					out.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 	    		System.out.println("ERROR:"+e);
 	    	}
 	        System.out.println("Exiting child thread.");

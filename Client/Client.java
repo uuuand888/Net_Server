@@ -14,7 +14,7 @@ public class Client{
             mySocket = new Socket("127.0.0.1",4441);
             in = new DataInputStream(mySocket.getInputStream());
             out = new DataOutputStream(mySocket.getOutputStream());
-            for (int i=0;i<10;i++) {
+            for (int i=0;i<3;i++) {
             	out.writeUTF("hello server!"+i);
             	s = in.readUTF();
             	System.out.println(s);
@@ -26,3 +26,4 @@ public class Client{
         }
     }
 }
+
