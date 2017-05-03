@@ -11,6 +11,8 @@ package v1;
 
 import java.io.*;
 import java.net.*;
+
+import Utils.NetPack;
 class React implements Runnable {
 	   	Thread t;
 	   	Socket fd;
@@ -35,20 +37,12 @@ class React implements Runnable {
 		    		if (res<0)
 		    			break;
 		    		System.out.println("res="+res);
-		    		byte[] r = new byte[4096];
-		    		System.arraycopy(b, 0, r, 0, 2);
-		    		System.out.println("ex="+(new String(r)));
-		    		System.arraycopy(b, 2, r, 0, 4);
-		    		System.out.println("ver="+(new String(r)));
-		    		System.arraycopy(b, 6, r, 0, 4);
-		    		int len = hBytesToInt(r);
-		    		System.out.println("len="+hBytesToInt(r));
-		    		System.arraycopy(b, 10, r, 0, 4);
-		    		System.out.println("cmd="+hBytesToInt(r));
-		    		System.arraycopy(b, 14, r, 0, len);
-		    		System.out.println("body="+(new String(r)));	
-		    		System.arraycopy(b, 14+len, r, 0, 2);
-		    		System.out.println("ex="+(new String(r)));
+		    		NetPack np = new NetPack();
+		    		res = np.unPack(b);
+		    		System.out.println("res="+res);
+		    		System.out.println("ver="+np.getVer());
+		    		System.out.println("cmd="+np.getCmd());
+		    		System.out.println("body="+np.getBody());	
 	                out.writeUTF("客户，你好，我是服务器"+Thread.currentThread().getName());
 		    	}
 	    		in.close();
@@ -65,23 +59,6 @@ class React implements Runnable {
 	    	}
 	        System.out.println("Exiting child thread.");
 	    }
-	    public static int hBytesToInt(byte[] b) {  
-	    	  int s = 0;  
-	    	  for (int i = 0; i < 3; i++) {  
-	    	    if (b[i] >= 0) {  
-	    	    s = s + b[i];  
-	    	    } else {  
-	    	    s = s + 256 + b[i];  
-	    	    }  
-	    	    s = s * 256;  
-	    	  }  
-	    	  if (b[3] >= 0) {  
-	    	    s = s + b[3];  
-	    	  } else {  
-	    	    s = s + 256 + b[3];  
-	    	  }  
-	    	  return s;  
-	    	} 
 }
 
 public class Server{

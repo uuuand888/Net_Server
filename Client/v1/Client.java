@@ -9,11 +9,15 @@
  */
 
 package v1;
+//import Utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import Utils.NetPack;
+
 public class Client{
     public static void main(String[] args) throws Exception{
         String str = null;
@@ -27,15 +31,8 @@ public class Client{
             in = new DataInputStream(mySocket.getInputStream());
             out = new DataOutputStream(mySocket.getOutputStream());
             String s = "hello server!";
-            byte[] buf=new byte[MAX_PACK_LEN]; 
-//            System.arraycopy(src, srcPos, dest, destPos, length);
-            System.arraycopy("SX".getBytes(), 0, buf, 0, 2);
-            System.arraycopy("1.00".getBytes(), 0, buf, 2, 4);
-            System.arraycopy(toHH(s.length()), 0, buf, 6, 4);
-            System.arraycopy(toHH(cmd), 0, buf, 10, 4);
-            System.arraycopy(s.getBytes(), 0, buf, 14, s.length());
-            System.arraycopy("EX".getBytes(), 0, buf, 14+s.length(), 2);
-            out.write(buf);
+            NetPack np = new NetPack(101, s); 
+            out.write(np.pack());
             str = in.readUTF();
             System.out.println(str);
             mySocket.close();
@@ -43,12 +40,4 @@ public class Client{
             System.out.println("can’t connect");
         }
     }
-	public static byte[] toHH(int n) {  
-		  byte[] b = new byte[4];  
-		  b[3] = (byte) (n & 0xff);  
-		  b[2] = (byte) (n >> 8 & 0xff);  
-		  b[1] = (byte) (n >> 16 & 0xff);  
-		  b[0] = (byte) (n >> 24 & 0xff);  
-		  return b;  
-		}  
 }
