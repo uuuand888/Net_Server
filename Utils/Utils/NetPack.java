@@ -38,7 +38,6 @@ public class NetPack {
 		byte[] r = new byte[4096];
 		System.arraycopy(pkg, 0, r, 0, 2);
 		stx = new String(r);
-		System.out.println("SX".equals(stx));
 		if (!"SX".equals(stx.substring(0, 2))) {
 			return -1;
 		}
