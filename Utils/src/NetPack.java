@@ -1,6 +1,4 @@
-
-
-package Utils;
+package src;
 
 public class NetPack {
 	private final int MAX_LEN=4096;
@@ -18,12 +16,12 @@ public class NetPack {
 		this.ver = ver;
 		this.cmd = cmd;
 		this.body = body;
-        System.arraycopy(stx.getBytes(), 0, pack, 0, 2);
-        System.arraycopy(ver.getBytes(), 0, pack, 2, 4);
-        System.arraycopy(toHH(body.length()), 0, pack, 6, 4);
-        System.arraycopy(toHH(cmd), 0, pack, 10, 4);
-        System.arraycopy(body.getBytes(), 0, pack, 14, body.length());
-        System.arraycopy(etx.getBytes(), 0, pack, 14+body.length(), 2);		
+      System.arraycopy(stx.getBytes(), 0, pack, 0, 2);
+      System.arraycopy(ver.getBytes(), 0, pack, 2, 4);
+      System.arraycopy(toHH(body.length()), 0, pack, 6, 4);
+      System.arraycopy(toHH(cmd), 0, pack, 10, 4);
+      System.arraycopy(body.getBytes(), 0, pack, 14, body.length());
+      System.arraycopy(etx.getBytes(), 0, pack, 14+body.length(), 2);		
 	}
 	public NetPack(int cmd, String body) {
 		this(cmd, body, "1.00", "SX", "EX");
@@ -73,21 +71,21 @@ public class NetPack {
 		  b[0] = (byte) (n >> 24 & 0xff);  
 		  return b;  
 	}
-    private static int hBytesToInt(byte[] b) {  
-  	  int s = 0;  
-  	  for (int i = 0; i < 3; i++) {  
-  	    if (b[i] >= 0) {  
-  	    s = s + b[i];  
-  	    } else {  
-  	    s = s + 256 + b[i];  
-  	    }  
-  	    s = s * 256;  
-  	  }  
-  	  if (b[3] >= 0) {  
-  	    s = s + b[3];  
-  	  } else {  
-  	    s = s + 256 + b[3];  
-  	  }  
-  	  return s;  
-  	} 
+  private static int hBytesToInt(byte[] b) {  
+	  int s = 0;  
+	  for (int i = 0; i < 3; i++) {  
+	    if (b[i] >= 0) {  
+	    s = s + b[i];  
+	    } else {  
+	    s = s + 256 + b[i];  
+	    }  
+	    s = s * 256;  
+	  }  
+	  if (b[3] >= 0) {  
+	    s = s + b[3];  
+	  } else {  
+	    s = s + 256 + b[3];  
+	  }  
+	  return s;  
+	} 
 }

@@ -16,7 +16,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import Utils.NetPack;
+import src.*;
 
 public class Client{
     public static void main(String[] args) throws Exception{

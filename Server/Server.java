@@ -51,6 +51,8 @@ public class Server{
     public static void main(String[] args){
         ServerSocket server = null;
         Socket you = null;
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(Thread.currentThread().getContextClassLoader().getResource("").getPath());
 		int	i=0;
         try{
             server = new ServerSocket(4441);
