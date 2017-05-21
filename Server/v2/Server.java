@@ -1,5 +1,10 @@
-package v2;
+/*
+ * 线程池处理具体的事务；
+ * 线程池处理accept；
+ * 
+ */
 
+package v2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -54,19 +59,38 @@ class React implements Runnable {
 	    }
 }
 
+class PoolAccept implements Runnable {
+	ExecutorService pool = Executors.newFixedThreadPool(2);
+	ServerSocket lfd;
+	Socket fd;
+	int	i=0;
+	PoolAccept(ServerSocket listenfd) {
+		this.lfd = listenfd;
+	}
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				fd = lfd.accept();
+				pool.execute(new React("Thread_"+i, fd));
+				i++;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
 public class Server{
     public static void main(String[] args){
-    	ExecutorService pool = Executors.newFixedThreadPool(1);
+    	ExecutorService pool = Executors.newFixedThreadPool(10);
         ServerSocket server = null;
-        Socket you = null;
-		int	i=0;
+		int	i;
         try{
             server = new ServerSocket(4441);
-        	while(true) {
-        		you = server.accept();
-        		pool.execute(new React("Thread_"+i, you));
-        		i++;
-        	}
+            for (i=0; i<10; i++) {
+            	pool.execute(new PoolAccept(server));
+            }
         }catch(IOException e1){
             System.out.println("ERROR:"+e1);
         }
